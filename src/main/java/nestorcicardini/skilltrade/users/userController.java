@@ -9,7 +9,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,19 +18,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import nestorcicardini.skilltrade.users.payloads.UserRegistrationPayload;
 
 @Controller
-@RequestMapping("users")
+@RequestMapping("/users")
 public class userController {
 	@Autowired
 	UserService userService;
 
 	// CRUD:
-	// 1. CREATE (POST METHOD) - http://localhost:3001/users
-	@PostMapping("")
-	@ResponseStatus(HttpStatus.CREATED)
-	public User saveUser(@RequestBody @Validated UserRegistrationPayload body) {
-		return userService.save(body);
-
-	}
+//	// 1. CREATE (POST METHOD) - User create method is available in Auth Controller
 
 	// 2. READ (GET METHOD) - http://localhost:3001/users
 	@GetMapping("")
