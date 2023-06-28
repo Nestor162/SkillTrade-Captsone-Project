@@ -18,6 +18,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import nestorcicardini.skilltrade.interests.Interest;
 import nestorcicardini.skilltrade.posts.Post;
@@ -29,6 +30,7 @@ import nestorcicardini.skilltrade.users.User;
 @Table(name = "profiles")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Profile {
 	@Id
 	@GeneratedValue
