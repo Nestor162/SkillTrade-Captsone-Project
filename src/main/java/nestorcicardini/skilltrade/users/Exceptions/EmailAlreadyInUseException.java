@@ -1,4 +1,4 @@
-package nestorcicardini.skilltrade.users.Exceptions;
+package nestorcicardini.skilltrade.users.exceptions;
 
 @SuppressWarnings("serial")
 public class EmailAlreadyInUseException extends RuntimeException {

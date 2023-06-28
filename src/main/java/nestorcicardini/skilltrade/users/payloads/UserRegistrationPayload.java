@@ -10,6 +10,7 @@ import lombok.Setter;
 @Setter
 public class UserRegistrationPayload {
 	@NotNull(message = "Username is required")
+	@Size(min = 3, message = "Username must be at least 3 characters long")
 	private String username;
 
 	@NotNull(message = "Email is required")

@@ -10,8 +10,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import nestorcicardini.skilltrade.profiles.Profile;
-import nestorcicardini.skilltrade.users.Exceptions.EmailAlreadyInUseException;
-import nestorcicardini.skilltrade.users.Exceptions.UserNotFoundException;
+import nestorcicardini.skilltrade.users.exceptions.EmailAlreadyInUseException;
+import nestorcicardini.skilltrade.users.exceptions.UserNotFoundException;
 import nestorcicardini.skilltrade.users.payloads.UserRegistrationPayload;
 
 @Service
@@ -22,8 +22,8 @@ public class UserService {
 
 	public User save(UserRegistrationPayload u) {
 		userRepo.findByEmail(u.getEmail()).ifPresent(user -> {
-			throw new EmailAlreadyInUseException(
-					"Email " + user.getEmail() + " already in use!");
+			throw new EmailAlreadyInUseException("Email " + "'"
+					+ user.getEmail() + "'" + " already in use!");
 		});
 
 		User newUser = new User(u.getUsername(), u.getEmail(), u.getPassword(),
@@ -44,7 +44,7 @@ public class UserService {
 	public User getUserByEmail(String email) {
 		return userRepo.findByEmail(email)
 				.orElseThrow(() -> new UserNotFoundException(
-						"User not found for email: " + email));
+						"User not found for email: " + "'" + email + "'"));
 	}
 
 	public User getUserById(String userId) {

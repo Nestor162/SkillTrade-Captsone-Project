@@ -14,7 +14,7 @@ import nestorcicardini.skilltrade.auth.exceptions.InvalidTokenException;
 import nestorcicardini.skilltrade.auth.payloads.successfulRegistrationPayload;
 import nestorcicardini.skilltrade.users.User;
 import nestorcicardini.skilltrade.users.UserService;
-import nestorcicardini.skilltrade.users.Exceptions.UserNotFoundException;
+import nestorcicardini.skilltrade.users.exceptions.UserNotFoundException;
 import nestorcicardini.skilltrade.users.payloads.UserLoginPayload;
 import nestorcicardini.skilltrade.users.payloads.UserRegistrationPayload;
 
@@ -47,7 +47,7 @@ public class AuthController {
 
 		if (!bcrypt.matches(plainPW, hashedPW))
 			throw new InvalidTokenException(
-					"Invalid credentials. Please check your username and password and try again.");
+					"Invalid credentials. Please check your email and password and try again.");
 
 		String token = JWTUtils.createToken(user);
 		return new ResponseEntity<>(new successfulRegistrationPayload(token),
