@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import nestorcicardini.skilltrade.profiles.Profile;
 import nestorcicardini.skilltrade.users.Exceptions.EmailAlreadyInUseException;
 import nestorcicardini.skilltrade.users.Exceptions.UserNotFoundException;
 import nestorcicardini.skilltrade.users.payloads.UserRegistrationPayload;
@@ -25,7 +26,8 @@ public class UserService {
 					"Email " + user.getEmail() + " already in use!");
 		});
 
-		User newUser = new User(u.getUsername(), u.getEmail(), u.getPassword());
+		User newUser = new User(u.getUsername(), u.getEmail(), u.getPassword(),
+				Role.USER, new Profile());
 		return userRepo.save(newUser);
 	}
 
