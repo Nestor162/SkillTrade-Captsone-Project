@@ -1,6 +1,7 @@
 package nestorcicardini.skilltrade.profiles;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -20,6 +21,7 @@ import lombok.Getter;
 import lombok.Setter;
 import nestorcicardini.skilltrade.interests.Interest;
 import nestorcicardini.skilltrade.posts.Post;
+import nestorcicardini.skilltrade.replies.Reply;
 import nestorcicardini.skilltrade.reviews.Review;
 import nestorcicardini.skilltrade.users.User;
 
@@ -46,21 +48,24 @@ public class Profile {
 	private double averageRating;
 	private String profilePicture;
 
-	@OneToMany(mappedBy = "profiles")
+	@OneToMany(mappedBy = "profile")
 	private Set<Post> posts;
 
-	@OneToOne(mappedBy = "profiles", cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "profile", cascade = CascadeType.ALL)
 	private User user;
 
 	@ManyToMany
 	@JoinTable(name = "profile_interests", joinColumns = @JoinColumn(name = "profile_id"), inverseJoinColumns = @JoinColumn(name = "interest_id"))
 	private Set<Interest> interests;
 
-	@OneToMany(mappedBy = "profiles")
-	private Set<Review> reviewsAboutCurrentProfile;
+	@OneToMany(mappedBy = "profileReviewed")
+	private List<Review> reviewsAboutCurrentProfile;
 
-	@OneToMany(mappedBy = "profiles")
-	private Set<Review> reviewsPublishedByCurrentProfile;
+	@OneToMany(mappedBy = "reviewAuthor")
+	private List<Review> reviewsPublishedByCurrentProfile;
+
+	@OneToMany(mappedBy = "profile")
+	private List<Reply> replies;
 
 	public enum Gender {
 		MALE, FEMALE, OTHER, PREFER_NOT_TO_SAY
