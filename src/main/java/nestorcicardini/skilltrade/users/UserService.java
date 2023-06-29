@@ -1,6 +1,7 @@
 package nestorcicardini.skilltrade.users;
 
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import nestorcicardini.skilltrade.profiles.Profile;
 import nestorcicardini.skilltrade.users.exceptions.EmailAlreadyInUseException;
+import nestorcicardini.skilltrade.users.exceptions.InvalidEmailFormatException;
 import nestorcicardini.skilltrade.users.exceptions.UserNotFoundException;
 import nestorcicardini.skilltrade.users.payloads.UserRegistrationPayload;
 
@@ -42,6 +44,14 @@ public class UserService {
 	}
 
 	public User getUserByEmail(String email) {
+
+		String regexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
+				+ "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+
+		if (!Pattern.matches(regexPattern, email)) {
+			throw new InvalidEmailFormatException("Invalid email format");
+		}
+
 		return userRepo.findByEmail(email)
 				.orElseThrow(() -> new UserNotFoundException(
 						"User not found for email: " + "'" + email + "'"));

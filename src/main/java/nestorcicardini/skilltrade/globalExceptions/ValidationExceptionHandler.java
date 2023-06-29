@@ -12,6 +12,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import nestorcicardini.skilltrade.users.exceptions.InvalidEmailFormatException;
+
 @RestControllerAdvice
 public class ValidationExceptionHandler {
 
@@ -42,5 +44,24 @@ public class ValidationExceptionHandler {
 
 		return new ResponseEntity<ErrorListPayload>(payload,
 				HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(java.lang.IllegalArgumentException.class)
+	public ResponseEntity<ErrorPayload> handleInvalidParameterException(
+			IllegalArgumentException ex) {
+
+		ErrorPayload payload = new ErrorPayload(
+				"Invalid argument provided. Please ensure that the provided argument is valid and meets the required criteria",
+				new Date(), HttpStatus.BAD_REQUEST.value());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(payload);
+	}
+
+	@ExceptionHandler(InvalidEmailFormatException.class)
+	public ResponseEntity<ErrorPayload> handleInvalidEmailFormatException(
+			InvalidEmailFormatException ex) {
+
+		ErrorPayload payload = new ErrorPayload(ex.getMessage(), new Date(),
+				HttpStatus.BAD_REQUEST.value());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(payload);
 	}
 }
