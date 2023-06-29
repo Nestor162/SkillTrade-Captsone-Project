@@ -7,9 +7,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -34,10 +37,12 @@ public class User implements UserDetails {
 	private String email;
 	@JsonIgnore
 	private String password;
+	@Enumerated(EnumType.STRING)
 	private Role role;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "profile_id", referencedColumnName = "id")
+	@JsonManagedReference
 	private Profile profile;
 
 	public User(String username, String email, String password, Role role,
