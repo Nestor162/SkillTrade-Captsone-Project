@@ -28,6 +28,10 @@ public class SecurityConfig {
 				auth -> auth.requestMatchers("/auth/register").permitAll());
 		http.authorizeHttpRequests(
 				auth -> auth.requestMatchers("/auth/login").permitAll());
+		http.authorizeHttpRequests(
+				auth -> auth.requestMatchers("/users").authenticated());
+		http.authorizeHttpRequests(
+				auth -> auth.requestMatchers("/users/{id}").authenticated());
 
 		http.addFilterBefore(jwtAuthFilter,
 				UsernamePasswordAuthenticationFilter.class);
