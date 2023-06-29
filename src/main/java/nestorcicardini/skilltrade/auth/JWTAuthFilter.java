@@ -23,10 +23,11 @@ public class JWTAuthFilter extends OncePerRequestFilter {
 	@Autowired
 	UserService usersService;
 
+	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request,
 			HttpServletResponse response, FilterChain filterChain)
-			throws ServletException, IOException {
+			throws ServletException, IOException, InvalidTokenException {
 
 		// This method will be invoked for each request.
 		// First, I need to extract the token from the Authorization Header.

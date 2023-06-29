@@ -69,7 +69,7 @@ public class JWTUtils {
 		} catch (ExpiredJwtException e) {
 			throw new InvalidTokenException(
 					"Token has expired. Please log in again.");
-		} catch (Exception e) {
+		} catch (InvalidTokenException e) {
 			throw new InvalidTokenException(
 					"Token validation failed. Please try again or log in.");
 		}
