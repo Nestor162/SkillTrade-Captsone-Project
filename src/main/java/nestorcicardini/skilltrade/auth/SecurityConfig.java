@@ -29,15 +29,16 @@ public class SecurityConfig {
 		http.authorizeHttpRequests(
 				auth -> auth.requestMatchers("/auth/login").permitAll());
 		http.authorizeHttpRequests(
-				auth -> auth.requestMatchers("/users").authenticated());
-		http.authorizeHttpRequests(
-				auth -> auth.requestMatchers("/users/{id}").authenticated());
+				auth -> auth.requestMatchers("/users").hasAuthority("ADMIN"));
 
 		http.addFilterBefore(jwtAuthFilter,
 				UsernamePasswordAuthenticationFilter.class);
 
 		http.sessionManagement(session -> session
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+		http.exceptionHandling(exceptionHandling -> exceptionHandling
+				.accessDeniedHandler(new NotAdminAccessDeniedHandler()));
 
 		return http.build();
 	}
