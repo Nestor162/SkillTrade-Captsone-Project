@@ -3,6 +3,7 @@ package nestorcicardini.skilltrade.users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,9 @@ import nestorcicardini.skilltrade.users.payloads.UserRegistrationPayload;
 public class userController {
 	@Autowired
 	UserService userService;
+
+	@Autowired
+	private PasswordEncoder bcrypt;
 
 	// CRUD:
 //	// 1. CREATE (POST METHOD) - User create method is available in Auth Controller
@@ -50,6 +54,7 @@ public class userController {
 	public User updateUser(@PathVariable String userId,
 			@RequestBody @Validated UserRegistrationPayload body)
 			throws Exception {
+		body.setPassword(bcrypt.encode(body.getPassword()));
 		return userService.findByIdAndUpdate(userId, body);
 	}
 
