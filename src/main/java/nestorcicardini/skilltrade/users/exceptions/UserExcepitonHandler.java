@@ -1,25 +1,31 @@
 package nestorcicardini.skilltrade.users.exceptions;
 
+import java.util.Date;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
+
+import nestorcicardini.skilltrade.globalExceptions.ErrorPayload;
 
 @ControllerAdvice
 public class UserExcepitonHandler {
 
 	@ExceptionHandler(UserNotFoundException.class)
-	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public ResponseEntity<String> handleUserNotFoundException(
+	public ResponseEntity<ErrorPayload> handleUserNotFoundException(
 			UserNotFoundException ex) {
-		return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+		ErrorPayload payload = new ErrorPayload(ex.getMessage(), new Date(),
+				404);
+		return new ResponseEntity<ErrorPayload>(payload, HttpStatus.NOT_FOUND);
 	}
 
 	@ExceptionHandler(EmailAlreadyInUseException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ResponseEntity<String> handleEmailAlreadyInUseException(
+	public ResponseEntity<ErrorPayload> handleEmailAlreadyInUseException(
 			EmailAlreadyInUseException ex) {
-		return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+		ErrorPayload payload = new ErrorPayload(ex.getMessage(), new Date(),
+				400);
+		return new ResponseEntity<ErrorPayload>(payload,
+				HttpStatus.BAD_REQUEST);
 	}
 }

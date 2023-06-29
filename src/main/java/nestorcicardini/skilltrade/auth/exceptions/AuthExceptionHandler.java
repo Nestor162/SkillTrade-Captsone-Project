@@ -1,19 +1,33 @@
 package nestorcicardini.skilltrade.auth.exceptions;
 
+import java.util.Date;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
+
+import nestorcicardini.skilltrade.globalExceptions.ErrorPayload;
 
 @ControllerAdvice
 public class AuthExceptionHandler {
 
 	@ExceptionHandler(InvalidTokenException.class)
-	@ResponseStatus(HttpStatus.UNAUTHORIZED)
-	public ResponseEntity<String> handleInvalidTokenException(
+	public ResponseEntity<ErrorPayload> handleInvalidTokenException(
 			InvalidTokenException ex) {
-		return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
+		ErrorPayload payload = new ErrorPayload(ex.getMessage(), new Date(),
+				401);
+		return new ResponseEntity<ErrorPayload>(payload,
+				HttpStatus.UNAUTHORIZED);
+	}
+
+	@ExceptionHandler(InvalidCredentialsException.class)
+	public ResponseEntity<ErrorPayload> handleInvalidCredentialsException(
+			InvalidCredentialsException ex) {
+		ErrorPayload payload = new ErrorPayload(ex.getMessage(), new Date(),
+				401);
+		return new ResponseEntity<ErrorPayload>(payload,
+				HttpStatus.UNAUTHORIZED);
 	}
 
 }
