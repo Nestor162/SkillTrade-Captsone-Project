@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -54,6 +56,7 @@ public class Profile {
 	private Set<Post> posts;
 
 	@OneToOne(mappedBy = "profile", cascade = CascadeType.ALL)
+	@JsonBackReference
 	private User user;
 
 	@ManyToMany
