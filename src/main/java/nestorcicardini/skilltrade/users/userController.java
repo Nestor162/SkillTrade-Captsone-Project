@@ -3,8 +3,7 @@ package nestorcicardini.skilltrade.users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.stereotype.Controller;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import nestorcicardini.skilltrade.users.payloads.UserRegistrationPayload;
 
-@Controller
+@RestController
 @RequestMapping("/users")
+@PreAuthorize("hasAuthority('ADMIN')")
 public class userController {
 	@Autowired
 	UserService userService;
@@ -48,7 +49,6 @@ public class userController {
 
 	// 5. UPDATE (PUT METHOD) - http://localhost:3001/users/:userId + req. body
 	@PutMapping("/{userId}")
-	@PostAuthorize("hasAuthority('ADMIN')")
 	public User updateUser(@PathVariable String userId,
 			@RequestBody @Validated UserRegistrationPayload body)
 			throws Exception {
@@ -57,7 +57,6 @@ public class userController {
 
 	// 6. DELETE (DELETE METHOD) - http://localhost:3001/users/:userId
 	@DeleteMapping("/{addressId}")
-	@PostAuthorize("hasAuthority('ADMIN')")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteUser(@PathVariable String userId) {
 		userService.findByIdAndDelete(userId);

@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import nestorcicardini.skilltrade.auth.exceptions.InvalidTokenException;
+import nestorcicardini.skilltrade.auth.exceptions.InvalidCredentialsException;
 import nestorcicardini.skilltrade.auth.payloads.successfulRegistrationPayload;
 import nestorcicardini.skilltrade.users.User;
 import nestorcicardini.skilltrade.users.UserService;
@@ -18,7 +18,7 @@ import nestorcicardini.skilltrade.users.exceptions.UserNotFoundException;
 import nestorcicardini.skilltrade.users.payloads.UserLoginPayload;
 import nestorcicardini.skilltrade.users.payloads.UserRegistrationPayload;
 
-@Controller
+@RestController
 @RequestMapping("/auth")
 public class AuthController {
 
@@ -46,7 +46,7 @@ public class AuthController {
 		String hashedPW = user.getPassword();
 
 		if (!bcrypt.matches(plainPW, hashedPW))
-			throw new InvalidTokenException(
+			throw new InvalidCredentialsException(
 					"Invalid credentials. Please check your email and password and try again.");
 
 		String token = JWTUtils.createToken(user);
