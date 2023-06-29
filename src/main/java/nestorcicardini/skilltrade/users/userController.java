@@ -54,7 +54,7 @@ public class userController {
 	}
 
 	// 6. DELETE (DELETE METHOD) - http://localhost:3001/users/:userId
-	@DeleteMapping("/{addressId}")
+	@DeleteMapping("/{userId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteUser(@PathVariable String userId) {
 		userService.findByIdAndDelete(userId);
