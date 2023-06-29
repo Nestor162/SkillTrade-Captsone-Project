@@ -41,7 +41,7 @@ public class Profile {
 	private String surname;
 	private String location;
 	private String biography;
-	private LocalDate birtDate;
+	private LocalDate birthDate;
 
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
