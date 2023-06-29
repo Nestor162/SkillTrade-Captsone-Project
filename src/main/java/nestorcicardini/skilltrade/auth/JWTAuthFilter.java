@@ -71,12 +71,12 @@ public class JWTAuthFilter extends OncePerRequestFilter {
 		} catch (InvalidTokenException e) {
 			//
 			ErrorPayload payload = new ErrorPayload(
-					"Please add the token to the authorization header.",
+					"Please add the token to the authorization header",
 					new Date(), 401);
 			ResponseEntity<ErrorPayload> responseEntity = new ResponseEntity<>(
 					payload, HttpStatus.UNAUTHORIZED);
 			response.setContentType("application/json");
-			response.setStatus(401);
+			response.setStatus(payload.getInternalCode());
 			response.getWriter().write(new ObjectMapper()
 					.writeValueAsString(responseEntity.getBody()));
 
