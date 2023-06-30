@@ -1,6 +1,7 @@
 package nestorcicardini.skilltrade.profiles.payloads;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -35,7 +36,7 @@ public class ProfileCreationPayload {
 	private Profile.Gender gender;
 
 	@NotNull
-	private Profile.Language language;
+	private Set<String> langs;
 
 	private String profilePicture;
 
