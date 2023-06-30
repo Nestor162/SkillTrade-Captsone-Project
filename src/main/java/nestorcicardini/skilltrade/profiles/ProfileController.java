@@ -6,8 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,7 +30,7 @@ public class ProfileController {
 	// links a profile to it.
 
 	// At the time of the user creation only the profile_id is defined (all
-	// other profile attributes are null). Later, with a PUT method we set all
+	// other profile attributes are null). Later, with a PATCH method we set all
 	// the missing attributes
 
 	// 2. READ (GET METHOD) - http://localhost:3001/profiles
@@ -50,7 +50,7 @@ public class ProfileController {
 
 	// 4. UPDATE (PUT METHOD) - http://localhost:3001/profiles/:profileId
 	// + req. body
-	@PutMapping("/{profileId}")
+	@PatchMapping("/{profileId}")
 	public Profile updateProfile(@PathVariable String profileId,
 			@RequestBody @Validated ProfileCreationPayload body) {
 
@@ -60,7 +60,8 @@ public class ProfileController {
 	// 5. DELETE (DELETE METHOD) - http://localhost:3001/profiles/:profileId
 	@DeleteMapping("/{profileId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteUser(@PathVariable String profileId) {
+	public void deleteProfile(@PathVariable String profileId) {
 		profileService.findByIdAndDelete(profileId);
 	}
+
 }
