@@ -43,7 +43,7 @@ public class User implements UserDetails {
 	private Role role;
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "profile_id", referencedColumnName = "id")
+	@JoinColumn(name = "profile_id")
 	@JsonManagedReference
 	private Profile profile;
 

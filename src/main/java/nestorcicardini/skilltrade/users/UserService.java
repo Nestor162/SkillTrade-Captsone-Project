@@ -27,9 +27,11 @@ public class UserService {
 			throw new EmailAlreadyInUseException("Email " + "'"
 					+ user.getEmail() + "'" + " already in use!");
 		});
-
+		Profile newProfile = new Profile();
 		User newUser = new User(u.getUsername(), u.getEmail(), u.getPassword(),
-				Role.USER, new Profile());
+				Role.USER, newProfile);
+		newProfile.setUser(newUser);
+
 		return userRepo.save(newUser);
 	}
 
