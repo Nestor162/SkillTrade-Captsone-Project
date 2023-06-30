@@ -23,6 +23,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import nestorcicardini.skilltrade.interests.Interest;
+import nestorcicardini.skilltrade.languages.Language;
 import nestorcicardini.skilltrade.posts.Post;
 import nestorcicardini.skilltrade.replies.Reply;
 import nestorcicardini.skilltrade.reviews.Review;
@@ -46,8 +47,9 @@ public class Profile {
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
 
-	@Enumerated(EnumType.STRING)
-	private Language language;
+	@ManyToMany
+	@JoinTable(name = "spoken_languages", joinColumns = @JoinColumn(name = "profile_id"), inverseJoinColumns = @JoinColumn(name = "language_code"))
+	Set<Language> spokenLanguages;
 
 	private double averageRating;
 	private String profilePicture;
@@ -55,7 +57,8 @@ public class Profile {
 	@OneToMany(mappedBy = "profile")
 	private Set<Post> posts;
 
-	@OneToOne(mappedBy = "profile", cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_id")
 	@JsonBackReference
 	private User user;
 
@@ -74,11 +77,6 @@ public class Profile {
 
 	public enum Gender {
 		MALE, FEMALE, OTHER, PREFER_NOT_TO_SAY
-	}
-
-	public enum Language {
-		CHINESE, SPANISH, ENGLISH, HINDI, ARABIC, BENGALI, PORTUGUESE, RUSSIAN,
-		JAPANESE, GERMAN, JAVANESE, PUNJABI, SHANGHAINESE, FRENCH, TELUGU
 	}
 
 }
