@@ -74,15 +74,4 @@ public class ProfileController {
 		profileService.findByIdAndDelete(profileId);
 	}
 
-	// TESTING WIP
-	// 5. UPDATE (LANG) (PATCH METHOD) -
-	// http://localhost:3001/profiles/:profileId + req. body
-//		@PatchMapping("lang/{profileId}")
-//		@PreAuthorize("hasAuthority('ADMIN') or #profileId == @userUtils.getCurrentProfileId().toString()")
-//		public List<ProfileLanguage> updateLanguages(@PathVariable String profileId,
-//				@RequestBody @Validated ProfileLanguagesPayload body) {
-//
-//			return profileService.findByIdAndAddLanguage(profileId, body);
-//		}
-
 }
