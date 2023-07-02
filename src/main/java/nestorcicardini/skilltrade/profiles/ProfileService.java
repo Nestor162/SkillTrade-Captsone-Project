@@ -40,6 +40,7 @@ public class ProfileService {
 						"Profile not found for id: " + profileId));
 	}
 
+	@SuppressWarnings("unlikely-arg-type")
 	public Profile findByIdAndUpdate(String profileId,
 			ProfileCreationPayload body) throws ProfileNotFoundException {
 
