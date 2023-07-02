@@ -63,8 +63,10 @@ public class ProfileService {
 					.orElseThrow(() -> new LanguageNotFoundException(
 							"Language not found with code: " + languageCode));
 
-			System.out.println("language found: " + language.toString());
-			found.getSpokenLanguages().add(language);
+			if (!body.getLangs().contains(language)) {
+				System.out.println("language found: " + language.toString());
+				found.getSpokenLanguages().add(language);
+			}
 
 		}
 

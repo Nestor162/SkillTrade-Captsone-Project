@@ -51,7 +51,7 @@ public class Profile {
 
 	@ManyToMany
 	@JoinTable(name = "profile_language", joinColumns = @JoinColumn(name = "profile_id"), inverseJoinColumns = @JoinColumn(name = "language_code"))
-	List<Language> spokenLanguages;
+	Set<Language> spokenLanguages;
 
 	private double averageRating;
 	private String profilePicture;
