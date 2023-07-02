@@ -3,6 +3,7 @@ package nestorcicardini.skilltrade.profiles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import nestorcicardini.skilltrade.profiles.payloads.ProfileCreationPayload;
 
 @RestController
 @RequestMapping("/profiles")
+@PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
 public class ProfileController {
 
 	@Autowired
@@ -35,33 +37,52 @@ public class ProfileController {
 
 	// 2. READ (GET METHOD) - http://localhost:3001/profiles
 	@GetMapping("")
+	@PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
 	public Page<Profile> getAllProfiles(
 			@RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "10") int size,
 			@RequestParam(defaultValue = "id") String sortValue) {
+
 		return profileService.findWithPagination(page, size, sortValue);
 	}
 
 	// 3. READ (GET METHOD) - http://localhost:3001/profiles/{profileId}
 	@GetMapping("/{profileId}")
+	// Admin and users can acces this endpoint
+	@PreAuthorize("hasAuthority('ADMIN') or #profileId == @userUtils.getCurrentProfileId().toString()")
 	public Profile getProfileById(@PathVariable String profileId) {
 		return profileService.getProfileById(profileId);
 	}
 
-	// 4. UPDATE (PUT METHOD) - http://localhost:3001/profiles/:profileId
+	// 4. UPDATE (PATCH METHOD) - http://localhost:3001/profiles/:profileId
 	// + req. body
 	@PatchMapping("/{profileId}")
+	// USER have access to this method only if the profile matches the
+	// authenticated user's profile.
+	@PreAuthorize("hasAuthority('ADMIN') or #profileId == @userUtils.getCurrentProfileId().toString()")
 	public Profile updateProfile(@PathVariable String profileId,
 			@RequestBody @Validated ProfileCreationPayload body) {
 
 		return profileService.findByIdAndUpdate(profileId, body);
 	}
 
-	// 5. DELETE (DELETE METHOD) - http://localhost:3001/profiles/:profileId
+	// 6. DELETE (DELETE METHOD) - http://localhost:3001/profiles/:profileId
 	@DeleteMapping("/{profileId}")
+	@PreAuthorize("hasAuthority('ADMIN') or #profileId == @userUtils.getCurrentProfileId().toString()")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteProfile(@PathVariable String profileId) {
 		profileService.findByIdAndDelete(profileId);
 	}
+
+	// TESTING WIP
+	// 5. UPDATE (LANG) (PATCH METHOD) -
+	// http://localhost:3001/profiles/:profileId + req. body
+//		@PatchMapping("lang/{profileId}")
+//		@PreAuthorize("hasAuthority('ADMIN') or #profileId == @userUtils.getCurrentProfileId().toString()")
+//		public List<ProfileLanguage> updateLanguages(@PathVariable String profileId,
+//				@RequestBody @Validated ProfileLanguagesPayload body) {
+//
+//			return profileService.findByIdAndAddLanguage(profileId, body);
+//		}
 
 }
