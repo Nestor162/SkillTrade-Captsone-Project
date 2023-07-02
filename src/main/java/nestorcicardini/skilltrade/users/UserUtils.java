@@ -23,6 +23,18 @@ public class UserUtils {
 		return null;
 	}
 
+	// Get the ProfileId of the user that is currently authenticated
+	public UUID getCurrentProfileId() {
+		Authentication authentication = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (authentication != null
+				&& authentication.getPrincipal() instanceof User) {
+			User user = (User) authentication.getPrincipal();
+			return user.getProfile().getId();
+		}
+		return null;
+	}
+
 	// Method used for debugging. Print on console the roles and authorities of
 	// the user invoking the endpoint.
 	private void checkRolesAndAuthorities() {
