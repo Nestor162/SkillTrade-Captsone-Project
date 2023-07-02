@@ -22,6 +22,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import nestorcicardini.skilltrade.interests.Interest;
 import nestorcicardini.skilltrade.languages.Language;
 import nestorcicardini.skilltrade.posts.Post;
@@ -34,6 +35,7 @@ import nestorcicardini.skilltrade.users.User;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class Profile {
 	@Id
 	@GeneratedValue
@@ -48,8 +50,8 @@ public class Profile {
 	private Gender gender;
 
 	@ManyToMany
-	@JoinTable(name = "spoken_languages", joinColumns = @JoinColumn(name = "profile_id"), inverseJoinColumns = @JoinColumn(name = "language_code"))
-	Set<Language> spokenLanguages;
+	@JoinTable(name = "profile_language", joinColumns = @JoinColumn(name = "profile_id"), inverseJoinColumns = @JoinColumn(name = "language_code"))
+	List<Language> spokenLanguages;
 
 	private double averageRating;
 	private String profilePicture;

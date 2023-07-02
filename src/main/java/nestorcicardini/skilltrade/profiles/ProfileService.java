@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import nestorcicardini.skilltrade.languages.LanguageRepository;
+import nestorcicardini.skilltrade.profiles.Profile.Gender;
 import nestorcicardini.skilltrade.profiles.exceptions.ProfileNotFoundException;
 import nestorcicardini.skilltrade.profiles.payloads.ProfileCreationPayload;
 
@@ -16,6 +18,9 @@ import nestorcicardini.skilltrade.profiles.payloads.ProfileCreationPayload;
 public class ProfileService {
 	@Autowired
 	ProfileRepository profileRepo;
+
+	@Autowired
+	LanguageRepository langRepo;
 
 	public Page<Profile> findWithPagination(int page, int size, String sortBy) {
 		if (size < 0)
@@ -38,15 +43,27 @@ public class ProfileService {
 
 		Profile found = this.getProfileById(profileId);
 
-		found.setId(UUID.fromString(profileId));
 		found.setName(body.getName());
 		found.setSurname(body.getSurname());
 		found.setLocation(body.getLocation());
 		found.setBiography(body.getBiography());
 		found.setBirthDate(body.getBirthDate());
-		found.setGender(body.getGender());
-		found.setLanguage(body.getLanguage());
+		found.setGender(Gender.valueOf(body.getGender()));
+
+//		found.getSpokenLanguages().clear();
+
+//		for (String languageCode : body.getLangs()) {
+//			Language language = langRepo.findByLanguageCode(languageCode)
+//					.orElseThrow(() -> new LanguageNotFoundException(
+//							"Language not found with code: " + languageCode));
+//
+////			found.getSpokenLanguages().add(language);
+//			System.err.println(
+//					"Adding languages to profiles currently not working... WIP");
+//		}
+
 		found.setProfilePicture(body.getProfilePicture());
+
 //		found.setInterests(body.getInterests());
 
 		return profileRepo.save(found);
@@ -57,4 +74,22 @@ public class ProfileService {
 		Profile found = this.getProfileById(profileId);
 		profileRepo.delete(found);
 	}
+
+//	public List<ProfileLanguage> findByIdAndAddLanguage(String profileId,
+//			ProfileLanguagesPayload body) throws ProfileNotFoundException {
+//		Profile found = this.getProfileById(profileId);
+//		found.getProfileLanguages().clear();
+//		List<ProfileLanguage> addedLanguages = new ArrayList<>();
+//		for (String languageCode : body.getLangs()) {
+//			Language language = langRepo.findByLanguageCode(languageCode)
+//					.orElseThrow(() -> new LanguageNotFoundException(
+//							"Language not found with code: " + languageCode));
+//			ProfileLanguage profileLanguage = new ProfileLanguage(found,
+//					language);
+//			profLangRepo.save(profileLanguage);
+//			addedLanguages.add(profileLanguage);
+//		}
+//		return addedLanguages;
+//	}
+
 }

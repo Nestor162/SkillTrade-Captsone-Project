@@ -1,14 +1,13 @@
 package nestorcicardini.skilltrade.profiles.payloads;
 
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
-import nestorcicardini.skilltrade.profiles.Profile;
 
 @Getter
 public class ProfileCreationPayload {
@@ -33,10 +32,9 @@ public class ProfileCreationPayload {
 	private LocalDate birthDate;
 
 	@NotNull
-	private Profile.Gender gender;
+	private String gender;
 
-	@NotNull
-	private Set<String> langs;
+	private List<String> langs;
 
 	private String profilePicture;
 
