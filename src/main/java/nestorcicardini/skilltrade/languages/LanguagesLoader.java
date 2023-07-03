@@ -44,7 +44,8 @@ public class LanguagesLoader implements CommandLineRunner {
 			} finally {
 				if (csvReader != null)
 					csvReader.close(); // Close the CSVReader
-				System.out.println("CSV CLOSED!");
+				System.out.println(
+						"-- CSV languages data loaded successfully into the database. CSV file closed. --");
 
 			}
 		} else
