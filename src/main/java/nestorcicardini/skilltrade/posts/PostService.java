@@ -39,9 +39,6 @@ public class PostService {
 
 		Interest category = new Interest();
 
-		System.err.println(new Profile());
-		System.err.println("Found author: " + foundAuthor);
-
 		Post newPost = new Post();
 		newPost.setTitle(post.getTitle());
 		newPost.setContent(post.getContent());

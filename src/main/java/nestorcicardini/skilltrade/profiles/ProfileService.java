@@ -65,7 +65,6 @@ public class ProfileService {
 							"Language not found with code: " + languageCode));
 
 			if (!body.getLangs().contains(language)) {
-				System.out.println("language found: " + language.toString());
 				found.getSpokenLanguages().add(language);
 			}
 
