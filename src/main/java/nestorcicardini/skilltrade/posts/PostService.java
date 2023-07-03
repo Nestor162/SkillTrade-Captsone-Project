@@ -11,6 +11,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import nestorcicardini.skilltrade.interests.Interest;
+import nestorcicardini.skilltrade.interests.InterestRepository;
+import nestorcicardini.skilltrade.interests.exceptions.InterestNotFoundException;
 import nestorcicardini.skilltrade.posts.Post.Availability;
 import nestorcicardini.skilltrade.posts.Post.PostStatus;
 import nestorcicardini.skilltrade.posts.Post.SkillLevel;
@@ -32,12 +34,17 @@ public class PostService {
 	@Autowired
 	UserUtils userUtils;
 
+	@Autowired
+	InterestRepository interestRepo;
+
 	public Post publish(PublishPostPayload post) {
 
 		Profile foundAuthor = profileService
 				.getProfileById(userUtils.getCurrentProfileId().toString());
 
-		Interest category = new Interest();
+		Interest category = interestRepo.findById(post.getCategoryId())
+				.orElseThrow(() -> new InterestNotFoundException(
+						"Interest not found with id: " + post.getCategoryId()));
 
 		Post newPost = new Post();
 		newPost.setTitle(post.getTitle());
@@ -48,7 +55,7 @@ public class PostService {
 		newPost.setPublicationDate(LocalDate.now());
 		newPost.setImageUrl(post.getImageUrl());
 		newPost.setProfile(foundAuthor);
-//		newPost.setCategory(category);
+		newPost.setCategory(category);
 
 		return postRepo.save(newPost);
 	}
@@ -86,7 +93,10 @@ public class PostService {
 				.getProfileById(userUtils.getCurrentProfileId().toString());
 		found.setProfile(postAuthor);
 
-//		found.setCategory(body.getCategoryId());
+		Interest category = interestRepo.findById(body.getCategoryId())
+				.orElseThrow(() -> new InterestNotFoundException(
+						"Interest not found with id: " + body.getCategoryId()));
+		found.setCategory(category);
 
 		return postRepo.save(found);
 	}

@@ -28,6 +28,6 @@ public class PublishPostPayload {
 	@Pattern(regexp = "(https?|ftp)://\\S+\\.(jpeg|jpg|png|gif)$", message = "Invalid image URL. Only JPEG, JPG, PNG, and GIF formats are allowed.")
 	private String imageUrl;
 
-//	@NotNull(message = "Category is required")
-	private String categoryId;
+	@NotNull(message = "Category is required")
+	private Long categoryId;
 }
