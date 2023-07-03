@@ -20,4 +20,12 @@ public class ReviewtExceptionHandler {
 		return new ResponseEntity<ErrorPayload>(payload, HttpStatus.NOT_FOUND);
 	}
 
+	@ExceptionHandler(SelfReviewNotAllowedException.class)
+	public ResponseEntity<ErrorPayload> handleSelfReviewNotAllowedException(
+			SelfReviewNotAllowedException ex) {
+		ErrorPayload payload = new ErrorPayload(ex.getMessage(), new Date(),
+				403);
+		return new ResponseEntity<ErrorPayload>(payload, HttpStatus.FORBIDDEN);
+	}
+
 }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import nestorcicardini.skilltrade.profiles.Profile;
 import nestorcicardini.skilltrade.profiles.ProfileService;
 import nestorcicardini.skilltrade.reviews.exceptions.ReviewNotFoundException;
+import nestorcicardini.skilltrade.reviews.exceptions.SelfReviewNotAllowedException;
 import nestorcicardini.skilltrade.reviews.payloads.CreateReviewPayload;
 import nestorcicardini.skilltrade.users.UserUtils;
 import nestorcicardini.skilltrade.users.exceptions.UserNotFoundException;
@@ -36,6 +37,11 @@ public class ReviewService {
 
 		Profile foundProfileReviewed = profileService
 				.getProfileById(body.getProfileReviewed());
+
+		if (foundAuthor.equals(foundProfileReviewed)) {
+			throw new SelfReviewNotAllowedException(
+					"Reviews on your own profile are not allowed");
+		}
 
 		Review newReview = new Review(body.getTitle(), body.getContent(),
 				LocalDate.now(), 0, body.getRating(), foundAuthor,
@@ -94,7 +100,6 @@ public class ReviewService {
 	public boolean isReviewAuthor(UUID reviewId, UUID profileId) {
 
 		Review review = this.getReviewById(reviewId.toString());
-		System.err.println(review.getReviewAuthor().getId().equals(profileId));
 		return review.getReviewAuthor().getId().equals(profileId);
 	}
 }
