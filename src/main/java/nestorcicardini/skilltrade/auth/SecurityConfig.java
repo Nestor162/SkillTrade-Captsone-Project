@@ -42,6 +42,10 @@ public class SecurityConfig {
 				auth -> auth.requestMatchers("/posts").authenticated());
 		http.authorizeHttpRequests(auth -> auth
 				.requestMatchers("/posts/{postId}").authenticated());
+		http.authorizeHttpRequests(
+				auth -> auth.requestMatchers("/reviews").authenticated());
+		http.authorizeHttpRequests(auth -> auth
+				.requestMatchers("/reviews/{reviewId}").authenticated());
 
 		http.addFilterBefore(jwtAuthFilter,
 				UsernamePasswordAuthenticationFilter.class);
