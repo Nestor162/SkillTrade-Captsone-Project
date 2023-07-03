@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -51,6 +52,7 @@ public class Post {
 	@JsonManagedReference
 	@JoinColumn(name = "profile_id")
 //	@JsonIncludeProperties(value = { "id" })
+	@JsonIdentityReference(alwaysAsId = true)
 	private Profile profile;
 
 	// Referring to 'interest' as 'category' in the context of posts because
