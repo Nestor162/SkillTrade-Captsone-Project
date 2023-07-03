@@ -21,7 +21,7 @@ import nestorcicardini.skilltrade.users.payloads.UserRegistrationPayload;
 @RestController
 @RequestMapping("/users")
 @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-public class userController {
+public class UserController {
 	@Autowired
 	UserService userService;
 
