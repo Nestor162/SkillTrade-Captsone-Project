@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Entity;
@@ -51,7 +50,7 @@ public class Post {
 	@ManyToOne
 	@JsonManagedReference
 	@JoinColumn(name = "profile_id")
-	@JsonProperty("profile_id")
+//	@JsonIncludeProperties(value = { "id" })
 	private Profile profile;
 
 	// Referring to 'interest' as 'category' in the context of posts because

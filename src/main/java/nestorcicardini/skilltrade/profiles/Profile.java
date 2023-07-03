@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.CascadeType;
@@ -53,6 +54,7 @@ public class Profile {
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "profile_language", joinColumns = @JoinColumn(name = "profile_id"), inverseJoinColumns = @JoinColumn(name = "language_code"))
+	@JsonManagedReference
 	Set<Language> spokenLanguages;
 
 	private double averageRating;
