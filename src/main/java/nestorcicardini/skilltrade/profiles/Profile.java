@@ -6,11 +6,14 @@ import java.util.Set;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -22,7 +25,6 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import nestorcicardini.skilltrade.interests.Interest;
 import nestorcicardini.skilltrade.languages.Language;
 import nestorcicardini.skilltrade.posts.Post;
@@ -35,7 +37,7 @@ import nestorcicardini.skilltrade.users.User;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Profile {
 	@Id
 	@GeneratedValue
@@ -49,7 +51,7 @@ public class Profile {
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "profile_language", joinColumns = @JoinColumn(name = "profile_id"), inverseJoinColumns = @JoinColumn(name = "language_code"))
 	Set<Language> spokenLanguages;
 
@@ -57,11 +59,11 @@ public class Profile {
 	private String profilePicture;
 
 	@OneToMany(mappedBy = "profile")
+	@JsonBackReference
 	private Set<Post> posts;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
-	@JsonBackReference
 	private User user;
 
 	@ManyToMany
@@ -79,6 +81,31 @@ public class Profile {
 
 	public enum Gender {
 		MALE, FEMALE, OTHER, PREFER_NOT_TO_SAY
+	}
+
+	public Profile(String name, String surname, String location,
+			String biography, LocalDate birthDate, Gender gender,
+			Set<Language> spokenLanguages, double averageRating,
+			String profilePicture, Set<Post> posts, User user,
+			Set<Interest> interests, List<Review> reviewsAboutCurrentProfile,
+			List<Review> reviewsPublishedByCurrentProfile,
+			List<Reply> replies) {
+		super();
+		this.name = name;
+		this.surname = surname;
+		this.location = location;
+		this.biography = biography;
+		this.birthDate = birthDate;
+		this.gender = gender;
+		this.spokenLanguages = spokenLanguages;
+		this.averageRating = averageRating;
+		this.profilePicture = profilePicture;
+		this.posts = posts;
+		this.user = user;
+		this.interests = interests;
+		this.reviewsAboutCurrentProfile = reviewsAboutCurrentProfile;
+		this.reviewsPublishedByCurrentProfile = reviewsPublishedByCurrentProfile;
+		this.replies = replies;
 	}
 
 }

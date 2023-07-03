@@ -3,6 +3,11 @@ package nestorcicardini.skilltrade.posts;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -12,12 +17,17 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import nestorcicardini.skilltrade.interests.Interest;
 import nestorcicardini.skilltrade.profiles.Profile;
 
 @Entity
 @Table(name = "posts")
 @Getter
+@Setter
+@NoArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Post {
 
 	@Id
@@ -39,7 +49,9 @@ public class Post {
 	private String imageUrl;
 
 	@ManyToOne
+	@JsonManagedReference
 	@JoinColumn(name = "profile_id")
+	@JsonProperty("profile_id")
 	private Profile profile;
 
 	// Referring to 'interest' as 'category' in the context of posts because
@@ -59,6 +71,22 @@ public class Post {
 	public enum Availability {
 		FULL_TIME, PART_TIME, WEEKDAYS, WEEKENDS, EVENINGS, MORNINGS, FLEXIBLE,
 		BY_APPOINTMENT, REMOTE, NOT_AVAILABLE
+	}
+
+	public Post(String title, String content, SkillLevel skillLevel,
+			PostStatus status, Availability availability,
+			LocalDate publicationDate, String imageUrl, Profile profile,
+			Interest category) {
+		super();
+		this.title = title;
+		this.content = content;
+		this.skillLevel = skillLevel;
+		this.status = status;
+		this.availability = availability;
+		this.publicationDate = publicationDate;
+		this.imageUrl = imageUrl;
+		this.profile = profile;
+		this.category = category;
 	}
 
 }
