@@ -9,6 +9,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import nestorcicardini.skilltrade.interests.Interest;
+import nestorcicardini.skilltrade.interests.InterestRepository;
+import nestorcicardini.skilltrade.interests.exceptions.InterestNotFoundException;
 import nestorcicardini.skilltrade.languages.Language;
 import nestorcicardini.skilltrade.languages.LanguageRepository;
 import nestorcicardini.skilltrade.languages.exceptions.LanguageNotFoundException;
@@ -23,6 +26,9 @@ public class ProfileService {
 
 	@Autowired
 	LanguageRepository langRepo;
+
+	@Autowired
+	InterestRepository interestRepo;
 
 	public Page<Profile> findWithPagination(int page, int size, String sortBy) {
 		if (size < 0)
@@ -53,11 +59,12 @@ public class ProfileService {
 		found.setBirthDate(body.getBirthDate());
 		found.setGender(Gender.valueOf(body.getGender()));
 		found.setProfilePicture(body.getProfilePicture());
-//		found.setInterests(body.getInterests());
 
+		// Clear previous languages
 		found.getSpokenLanguages().clear();
 		profileRepo.save(found);
 
+		// Set profile languages
 		for (String languageCode : body.getLangs()) {
 
 			Language language = langRepo.findByLanguageCode(languageCode)
@@ -67,6 +74,21 @@ public class ProfileService {
 			if (!body.getLangs().contains(language)) {
 				found.getSpokenLanguages().add(language);
 			}
+
+		}
+
+		// Clear previous interests
+		found.getInterests().clear();
+		profileRepo.save(found);
+
+		// Set profile interests
+		for (Interest currentInterest : body.getInterests()) {
+			Interest foundInterest = interestRepo
+					.findById(currentInterest.getId())
+					.orElseThrow(() -> new InterestNotFoundException(
+							"Interest not found with id: "
+									+ currentInterest.getId()));
+			found.getInterests().add(foundInterest);
 
 		}
 

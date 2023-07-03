@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import nestorcicardini.skilltrade.interests.Interest;
 
 @Getter
 public class ProfileCreationPayload {
@@ -35,6 +36,8 @@ public class ProfileCreationPayload {
 	private String gender;
 
 	private Set<String> langs;
+
+	private Set<Interest> interests;
 
 	private String profilePicture;
 
