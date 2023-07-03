@@ -44,7 +44,8 @@ public class ReviewController {
 
 	// 2. READ (GET METHOD) - http://localhost:3001/reviews
 	@GetMapping("")
-	public Page<Review> getAllUsers(@RequestParam(defaultValue = "0") int page,
+	public Page<Review> getAllReviews(
+			@RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "10") int size,
 			@RequestParam(defaultValue = "id") String sortValue) {
 
@@ -53,8 +54,8 @@ public class ReviewController {
 
 	// 3. READ (GET METHOD) - http://localhost:3001/reviews/{reviewId}
 	@GetMapping("/{reviewId}")
-	public Review getReviewById(@PathVariable String userId) {
-		return reviewService.getReviewById(userId);
+	public Review getReviewById(@PathVariable String reviewId) {
+		return reviewService.getReviewById(reviewId);
 	}
 
 	// 5. UPDATE (PUT METHOD) - http://localhost:3001/reviews/:reviewId + req.
