@@ -20,6 +20,10 @@ public class Interest {
 	private Long id;
 	private String name;
 
+	public Interest(Long id) {
+		this.id = id;
+	}
+
 	public Interest(String name) {
 		this.name = name;
 	}
