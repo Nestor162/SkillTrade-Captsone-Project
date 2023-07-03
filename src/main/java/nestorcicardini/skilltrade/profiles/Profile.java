@@ -66,6 +66,7 @@ public class Profile {
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
+	@JsonBackReference
 	private User user;
 
 	@ManyToMany
@@ -73,13 +74,16 @@ public class Profile {
 	private Set<Interest> interests;
 
 	@OneToMany(mappedBy = "profileReviewed")
+	@JsonBackReference
 	private List<Review> reviewsAboutCurrentProfile;
 
 	@OneToMany(mappedBy = "reviewAuthor")
+	@JsonBackReference
 	private List<Review> reviewsPublishedByCurrentProfile;
 
 	@OneToMany(mappedBy = "profile")
-	private List<Reply> replies;
+	@JsonBackReference
+	private List<Reply> userReplies;
 
 	public enum Gender {
 		MALE, FEMALE, OTHER, PREFER_NOT_TO_SAY
@@ -107,7 +111,7 @@ public class Profile {
 		this.interests = interests;
 		this.reviewsAboutCurrentProfile = reviewsAboutCurrentProfile;
 		this.reviewsPublishedByCurrentProfile = reviewsPublishedByCurrentProfile;
-		this.replies = replies;
+		this.userReplies = replies;
 	}
 
 }

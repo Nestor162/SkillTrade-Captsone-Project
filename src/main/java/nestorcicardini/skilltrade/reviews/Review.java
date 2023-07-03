@@ -4,6 +4,10 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -36,14 +40,20 @@ public class Review {
 
 	@ManyToOne
 	@JoinColumn(name = "review_author_id")
+	@JsonManagedReference
+	@JsonIncludeProperties({ "id" })
+	@JsonIdentityReference(alwaysAsId = true)
 	private Profile reviewAuthor;
 
 	@ManyToOne
 	@JoinColumn(name = "profile_reviewed_id")
+	@JsonManagedReference
+	@JsonIncludeProperties({ "id" })
+	@JsonIdentityReference(alwaysAsId = true)
 	private Profile profileReviewed;
 
 	@OneToMany(mappedBy = "review")
-	private List<Reply> replies;
+	private List<Reply> reviewReplies;
 
 	public Review(String title, String content, LocalDate publicationDate,
 			int likes, int rating, Profile reviewAuthor,
