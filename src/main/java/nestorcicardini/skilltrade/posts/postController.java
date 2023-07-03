@@ -61,7 +61,7 @@ public class postController {
 
 	// 5. UPDATE (PUT METHOD) - http://localhost:3001/post/:postId + req. body
 	@PutMapping("/{postId}")
-	@PreAuthorize("hasAuthority('ADMIN') or #userId == @userUtils.getCurrentUserId().toString()")
+	@PreAuthorize("hasAuthority('ADMIN') or @postService.getPostById(#postId).getProfile().getUser().getId().toString() == @userUtils.getCurrentUserId().toString()")
 	public Post updateUser(@PathVariable String postId,
 			@RequestBody @Validated PublishPostPayload body) throws Exception {
 
@@ -71,7 +71,7 @@ public class postController {
 	// 6. DELETE (DELETE METHOD) - http://localhost:3001/posts/:postId
 	@DeleteMapping("/{postId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	@PreAuthorize("hasAuthority('ADMIN') or #userId == @userUtils.getCurrentUserId().toString()")
+	@PreAuthorize("hasAuthority('ADMIN') or @postService.getPostById(#postId).getProfile().getUser().getId().toString() == @userUtils.getCurrentUserId().toString()")
 	public void deleteUser(@PathVariable String postId) {
 		postService.findByIdAndDelete(postId);
 	}
