@@ -23,7 +23,7 @@ import nestorcicardini.skilltrade.users.UserUtils;
 @RestController
 @RequestMapping("/posts")
 @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-public class postController {
+public class PostController {
 	@Autowired
 	PostService postService;
 
