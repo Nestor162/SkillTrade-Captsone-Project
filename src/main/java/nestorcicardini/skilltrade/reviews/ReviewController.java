@@ -1,5 +1,7 @@
 package nestorcicardini.skilltrade.reviews;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -52,10 +54,16 @@ public class ReviewController {
 		return reviewService.findWithPagination(page, size, sortValue);
 	}
 
-	// 3. READ (GET METHOD) - http://localhost:3001/reviews/{reviewId}
+	// 3. READ (GET METHOD) - http://localhost:3001/reviews/:reviewId
 	@GetMapping("/{reviewId}")
 	public Review getReviewById(@PathVariable String reviewId) {
 		return reviewService.getReviewById(reviewId);
+	}
+
+	// 4. READ (GET METHOD) - http://localhost:3001/reviews&author=userId
+	@GetMapping(params = "author")
+	public List<Review> getReviewByAuthor(@RequestParam String author) {
+		return reviewService.getReviewByProfileId(author);
 	}
 
 	// 5. UPDATE (PUT METHOD) - http://localhost:3001/reviews/:reviewId + req.

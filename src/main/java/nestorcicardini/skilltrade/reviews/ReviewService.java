@@ -1,6 +1,7 @@
 package nestorcicardini.skilltrade.reviews;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,6 +96,15 @@ public class ReviewService {
 		reviewRepo.delete(found);
 	}
 
+	public List<Review> getReviewByProfileId(String profileId) {
+
+		List<Review> foundReviews = reviewRepo
+				.findByReviewAuthor(profileService.getProfileById(profileId))
+				.orElseThrow(() -> new UserNotFoundException(
+						"Review author not found for id: " + profileId));
+		return foundReviews;
+	}
+
 	// Checks whether the current user is the author of the review,
 	// allowing only the author to delete it.
 	public boolean isReviewAuthor(UUID reviewId, UUID profileId) {
@@ -102,4 +112,5 @@ public class ReviewService {
 		Review review = this.getReviewById(reviewId.toString());
 		return review.getReviewAuthor().getId().equals(profileId);
 	}
+
 }
