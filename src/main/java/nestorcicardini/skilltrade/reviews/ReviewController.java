@@ -40,8 +40,8 @@ public class ReviewController {
 	public ResponseEntity<Review> publishReview(
 			@RequestBody @Validated CreateReviewPayload body) {
 
-		Review newPost = reviewService.publish(body);
-		return new ResponseEntity<>(newPost, HttpStatus.CREATED);
+		Review newReview = reviewService.publish(body);
+		return new ResponseEntity<>(newReview, HttpStatus.CREATED);
 	}
 
 	// 2. READ (GET METHOD) - http://localhost:3001/reviews
@@ -60,7 +60,7 @@ public class ReviewController {
 		return reviewService.getReviewById(reviewId);
 	}
 
-	// 4. READ (GET METHOD) - http://localhost:3001/reviews&author=userId
+	// 4. READ (GET METHOD) - http://localhost:3001/reviews&author=profileId
 	@GetMapping(params = "author")
 	public List<Review> getReviewByAuthor(@RequestParam String author) {
 		return reviewService.getReviewByProfileId(author);

@@ -54,12 +54,12 @@ public class ReplyController {
 	}
 
 	// 3. READ (GET METHOD) - http://localhost:3001/replies/:replyId
-	@GetMapping("/{reviewId}")
+	@GetMapping("/{replyId}")
 	public Reply getReplyById(@PathVariable String replyId) {
 		return replyService.getReplyById(replyId);
 	}
 
-	// 4. READ (GET METHOD) - http://localhost:3001/replies&author=userId
+	// 4. READ (GET METHOD) - http://localhost:3001/replies&author=replyId
 	@GetMapping(params = "author")
 	public List<Reply> getReviewByAuthor(@RequestParam String author) {
 		return replyService.getReplyByProfileId(author);
@@ -77,9 +77,9 @@ public class ReplyController {
 	// 6. DELETE (DELETE METHOD) - http://localhost:3001/replies/:replyId
 	@DeleteMapping("/{replyId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	@PreAuthorize("hasAuthority('ADMIN') or @reviewService.isReviewAuthor(#reviewId, @userUtils.getCurrentProfileId())")
-	public void deleteUser(@PathVariable String reviewId) {
-		replyService.findByIdAndDelete(reviewId);
+	@PreAuthorize("hasAuthority('ADMIN') or @replyService.isReplyAuthor(#replyId, @userUtils.getCurrentProfileId())")
+	public void deleteUser(@PathVariable String replyId) {
+		replyService.findByIdAndDelete(replyId);
 	}
 
 }

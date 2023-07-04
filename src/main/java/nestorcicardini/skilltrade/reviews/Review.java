@@ -53,6 +53,8 @@ public class Review {
 	private Profile profileReviewed;
 
 	@OneToMany(mappedBy = "review")
+	@JsonIncludeProperties({ "id" })
+	@JsonIdentityReference(alwaysAsId = true)
 	private List<Reply> reviewReplies;
 
 	public Review(String title, String content, LocalDate publicationDate,

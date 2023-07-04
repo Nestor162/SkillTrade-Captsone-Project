@@ -84,21 +84,21 @@ public class ReplyService {
 		return replyRepo.save(found);
 	}
 
-	public void findByIdAndDelete(String id) throws UserNotFoundException {
+	public void findByIdAndDelete(String id) throws ReplyNotFoundException {
 		Reply found = this.getReplyById(id);
 		replyRepo.delete(found);
 	}
 
 	public List<Reply> getReplyByProfileId(String profileId) {
 
-		List<Reply> foundReviews = replyRepo
+		List<Reply> foundReplies = replyRepo
 				.findByProfile(profileService.getProfileById(profileId))
 				.orElseThrow(() -> new UserNotFoundException(
-						"Review author not found for id: " + profileId));
-		return foundReviews;
+						"Reply author not found for id: " + profileId));
+		return foundReplies;
 	}
 
-	// Checks whether the current user is the author of the review,
+	// Checks whether the current user is the author of the reply,
 	// allowing only the author to delete it.
 	public boolean isReplyAuthor(UUID replyId, UUID profileId) {
 
