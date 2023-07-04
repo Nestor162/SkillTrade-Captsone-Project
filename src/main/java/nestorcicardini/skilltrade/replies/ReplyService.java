@@ -98,6 +98,15 @@ public class ReplyService {
 		return foundReplies;
 	}
 
+	public List<Reply> getReplyByProfileReviewed(String profileId) {
+
+		List<Reply> foundReplies = replyRepo
+				.findByProfile(profileService.getProfileById(profileId))
+				.orElseThrow(() -> new UserNotFoundException(
+						"Reply author not found for id: " + profileId));
+		return foundReplies;
+	}
+
 	// Checks whether the current user is the author of the reply,
 	// allowing only the author to delete it.
 	public boolean isReplyAuthor(UUID replyId, UUID profileId) {
