@@ -73,6 +73,7 @@ public class ReplyService {
 		found.setContent(body.getContent());
 		found.setLikes(0);
 		found.setPublicationDate(LocalDate.now());
+		found.setEdited(true);
 
 		Profile foundReplyAuthor = profileService
 				.getProfileById(userUtils.getCurrentProfileId().toString());

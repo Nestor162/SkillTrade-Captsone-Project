@@ -30,4 +30,7 @@ public class PublishPostPayload {
 
 	@NotNull(message = "Category is required")
 	private Long categoryId;
+
+	@NotNull
+	boolean isEdited;
 }

@@ -37,6 +37,7 @@ public class Review {
 	private LocalDate publicationDate;
 	private int likes;
 	private int rating;
+	private boolean isEdited;
 
 	@ManyToOne
 	@JoinColumn(name = "review_author_id")

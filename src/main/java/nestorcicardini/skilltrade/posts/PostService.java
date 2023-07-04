@@ -88,6 +88,7 @@ public class PostService {
 		found.setSkillLevel(SkillLevel.valueOf(body.getSkillLevel()));
 		found.setStatus(PostStatus.valueOf(body.getPostStatus()));
 		found.setAvailability(Availability.valueOf(body.getAvailability()));
+		found.setEdited(true);
 
 		Profile postAuthor = profileService
 				.getProfileById(userUtils.getCurrentProfileId().toString());

@@ -94,6 +94,7 @@ public class ReviewService {
 		found.setLikes(0);
 		found.setPublicationDate(LocalDate.now());
 		found.setRating(body.getRating());
+		found.setEdited(true);
 
 		Profile foundAuthor = profileService
 				.getProfileById(userUtils.getCurrentProfileId().toString());

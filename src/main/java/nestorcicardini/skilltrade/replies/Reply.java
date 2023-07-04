@@ -36,6 +36,7 @@ public class Reply {
 	private String content;
 	private LocalDate publicationDate;
 	private long likes;
+	private boolean isEdited;
 
 	@ManyToOne
 	@JoinColumn(name = "replyAuthor")
