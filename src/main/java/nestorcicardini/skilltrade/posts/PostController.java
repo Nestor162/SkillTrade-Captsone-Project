@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -94,7 +95,8 @@ public class PostController {
 			@RequestParam(required = false) SkillLevel skillLevel,
 			@RequestParam(required = false) PostStatus status,
 			@RequestParam(required = false) String title,
-			@RequestParam(required = false) String query) {
+			@RequestParam(required = false) String query,
+			@RequestParam(required = false) String sort) {
 
 		// Create a specification to filter posts
 		Specification<Post> spec = Specification.where(null);
@@ -119,8 +121,18 @@ public class PostController {
 					.and(PostSpecifications.titleOrDescriptionContains(query));
 		}
 
+		// Create a Sort object based on the sort parameter
+		Sort sortObj;
+		if ("newest".equals(sort)) {
+			sortObj = Sort.by(Sort.Direction.DESC, "publicationDate");
+		} else if ("oldest".equals(sort)) {
+			sortObj = Sort.by(Sort.Direction.ASC, "publicationDate");
+		} else {
+			sortObj = Sort.unsorted();
+		}
+
 		// Find posts matching the specification
-		return postRepo.findAll(spec);
+		return postRepo.findAll(spec, sortObj);
 	}
 
 }
