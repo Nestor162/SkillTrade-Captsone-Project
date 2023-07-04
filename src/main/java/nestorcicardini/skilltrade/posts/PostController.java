@@ -96,7 +96,8 @@ public class PostController {
 			@RequestParam(required = false) PostStatus status,
 			@RequestParam(required = false) String title,
 			@RequestParam(required = false) String query,
-			@RequestParam(required = false) String sort) {
+			@RequestParam(required = false) String sort,
+			@RequestParam(required = false) String location) {
 
 		// Create a specification to filter posts
 		Specification<Post> spec = Specification.where(null);
@@ -119,6 +120,9 @@ public class PostController {
 		if (query != null) {
 			spec = spec
 					.and(PostSpecifications.titleOrDescriptionContains(query));
+		}
+		if (location != null) {
+			spec = spec.and(PostSpecifications.authorLocationEquals(location));
 		}
 
 		// Create a Sort object based on the sort parameter
