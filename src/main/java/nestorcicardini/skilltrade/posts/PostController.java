@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -25,6 +26,7 @@ import nestorcicardini.skilltrade.interests.Interest;
 import nestorcicardini.skilltrade.posts.Post.Availability;
 import nestorcicardini.skilltrade.posts.Post.PostStatus;
 import nestorcicardini.skilltrade.posts.Post.SkillLevel;
+import nestorcicardini.skilltrade.posts.payloads.ChangeStatusPayload;
 import nestorcicardini.skilltrade.posts.payloads.PublishPostPayload;
 import nestorcicardini.skilltrade.users.UserUtils;
 
@@ -85,6 +87,15 @@ public class PostController {
 	@PreAuthorize("hasAuthority('ADMIN') or @postService.getPostById(#postId).getProfile().getUser().getId().toString() == @userUtils.getCurrentUserId().toString()")
 	public void deleteUser(@PathVariable String postId) {
 		postService.findByIdAndDelete(postId);
+	}
+
+	// 7. UPDATE STATUS (PATCH METHOD) - http://localhost:3001/posts/:postId +
+	// req. body
+	@PatchMapping("/{postId}")
+	public Post changePostStatus(@PathVariable String postId,
+			@RequestBody @Validated ChangeStatusPayload Status)
+			throws Exception {
+		return postService.findByIdAndChangeStatus(postId, Status);
 	}
 
 	// FILTERS

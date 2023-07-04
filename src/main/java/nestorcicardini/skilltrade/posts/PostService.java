@@ -12,15 +12,15 @@ import org.springframework.stereotype.Service;
 
 import nestorcicardini.skilltrade.interests.Interest;
 import nestorcicardini.skilltrade.interests.InterestRepository;
-import nestorcicardini.skilltrade.interests.exceptions.InterestNotFoundException;
 import nestorcicardini.skilltrade.posts.Post.Availability;
 import nestorcicardini.skilltrade.posts.Post.PostStatus;
 import nestorcicardini.skilltrade.posts.Post.SkillLevel;
+import nestorcicardini.skilltrade.posts.exceptions.PostNotFoundException;
+import nestorcicardini.skilltrade.posts.payloads.ChangeStatusPayload;
 import nestorcicardini.skilltrade.posts.payloads.PublishPostPayload;
 import nestorcicardini.skilltrade.profiles.Profile;
 import nestorcicardini.skilltrade.profiles.ProfileService;
 import nestorcicardini.skilltrade.users.UserUtils;
-import nestorcicardini.skilltrade.users.exceptions.UserNotFoundException;
 
 @Service
 public class PostService {
@@ -43,7 +43,7 @@ public class PostService {
 				.getProfileById(userUtils.getCurrentProfileId().toString());
 
 		Interest category = interestRepo.findById(post.getCategoryId())
-				.orElseThrow(() -> new InterestNotFoundException(
+				.orElseThrow(() -> new PostNotFoundException(
 						"Interest not found with id: " + post.getCategoryId()));
 
 		Post newPost = new Post();
@@ -72,12 +72,12 @@ public class PostService {
 
 	public Post getPostById(String postId) {
 		return postRepo.findById(UUID.fromString(postId))
-				.orElseThrow(() -> new UserNotFoundException(
+				.orElseThrow(() -> new PostNotFoundException(
 						"Post not found for id: " + postId));
 	}
 
 	public Post findByIdAndUpdate(String postId, PublishPostPayload body)
-			throws UserNotFoundException {
+			throws PostNotFoundException {
 
 		Post found = this.getPostById(postId);
 
@@ -94,15 +94,22 @@ public class PostService {
 		found.setProfile(postAuthor);
 
 		Interest category = interestRepo.findById(body.getCategoryId())
-				.orElseThrow(() -> new InterestNotFoundException(
+				.orElseThrow(() -> new PostNotFoundException(
 						"Interest not found with id: " + body.getCategoryId()));
 		found.setCategory(category);
 
 		return postRepo.save(found);
 	}
 
-	public void findByIdAndDelete(String id) throws UserNotFoundException {
+	public void findByIdAndDelete(String id) throws PostNotFoundException {
 		Post found = this.getPostById(id);
 		postRepo.delete(found);
+	}
+
+	public Post findByIdAndChangeStatus(String postId,
+			ChangeStatusPayload status) {
+		Post found = this.getPostById(postId);
+		found.setStatus(PostStatus.valueOf(status.getPostStatus()));
+		return postRepo.save(found);
 	}
 }
