@@ -1,7 +1,10 @@
 package nestorcicardini.skilltrade.posts;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,6 +20,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import nestorcicardini.skilltrade.interests.Interest;
+import nestorcicardini.skilltrade.posts.Post.Availability;
+import nestorcicardini.skilltrade.posts.Post.PostStatus;
+import nestorcicardini.skilltrade.posts.Post.SkillLevel;
 import nestorcicardini.skilltrade.posts.payloads.PublishPostPayload;
 import nestorcicardini.skilltrade.users.UserUtils;
 
@@ -31,6 +38,9 @@ public class PostController {
 	// Custom class that have useful methods to check roles/authorities and to
 	// get info from authenticated user
 	UserUtils userUtils;
+
+	@Autowired
+	PostRepository postRepo;
 
 	// CRUD:
 	// 1. CREATE (POST METHOD) - http://localhost:3001/posts
@@ -74,6 +84,43 @@ public class PostController {
 	@PreAuthorize("hasAuthority('ADMIN') or @postService.getPostById(#postId).getProfile().getUser().getId().toString() == @userUtils.getCurrentUserId().toString()")
 	public void deleteUser(@PathVariable String postId) {
 		postService.findByIdAndDelete(postId);
+	}
+
+	// FILTERS
+	@GetMapping("/filters")
+	public List<Post> getPosts(
+			@RequestParam(required = false) Availability availability,
+			@RequestParam(required = false) Interest category,
+			@RequestParam(required = false) SkillLevel skillLevel,
+			@RequestParam(required = false) PostStatus status,
+			@RequestParam(required = false) String title,
+			@RequestParam(required = false) String query) {
+
+		// Create a specification to filter posts
+		Specification<Post> spec = Specification.where(null);
+		if (availability != null) {
+			spec = spec
+					.and(PostSpecifications.availabilityEquals(availability));
+		}
+		if (category != null) {
+			spec = spec.and(PostSpecifications.categoryEquals(category));
+		}
+		if (skillLevel != null) {
+			spec = spec.and(PostSpecifications.skillLevelEquals(skillLevel));
+		}
+		if (status != null) {
+			spec = spec.and(PostSpecifications.statusEquals(status));
+		}
+		if (title != null) {
+			spec = spec.and(PostSpecifications.titleContains(title));
+		}
+		if (query != null) {
+			spec = spec
+					.and(PostSpecifications.titleOrDescriptionContains(query));
+		}
+
+		// Find posts matching the specification
+		return postRepo.findAll(spec);
 	}
 
 }
