@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import nestorcicardini.skilltrade.profiles.Profile;
+import nestorcicardini.skilltrade.profiles.ProfileRepository;
 import nestorcicardini.skilltrade.profiles.ProfileService;
 import nestorcicardini.skilltrade.reviews.exceptions.ReviewNotFoundException;
 import nestorcicardini.skilltrade.reviews.exceptions.SelfReviewNotAllowedException;
@@ -31,6 +32,9 @@ public class ReviewService {
 	@Autowired
 	ProfileService profileService;
 
+	@Autowired
+	ProfileRepository profileRepo;
+
 	public Review publish(CreateReviewPayload body) {
 
 		Profile foundAuthor = profileService
@@ -48,7 +52,19 @@ public class ReviewService {
 				LocalDate.now(), 0, body.getRating(), foundAuthor,
 				foundProfileReviewed);
 
-		return reviewRepo.save(newReview);
+		Review savedReview = reviewRepo.save(newReview);
+
+		List<Review> foundReviews = foundProfileReviewed
+				.getReviewsAboutCurrentProfile();
+		double sumOfRatings = 0;
+		for (Review r : foundReviews) {
+			sumOfRatings += r.getRating();
+		}
+		double averageRating = sumOfRatings / foundReviews.size();
+		foundProfileReviewed.setAverageRating(averageRating);
+		profileRepo.save(foundProfileReviewed);
+
+		return savedReview;
 	}
 
 	public Page<Review> findWithPagination(int page, int size, String sortBy) {
@@ -88,7 +104,19 @@ public class ReviewService {
 		found.setProfileReviewed(foundProfileReviewed);
 		found.setReviewAuthor(foundAuthor);
 
-		return reviewRepo.save(found);
+		Review savedReview = reviewRepo.save(found);
+
+		List<Review> foundReviews = foundProfileReviewed
+				.getReviewsAboutCurrentProfile();
+		double sumOfRatings = 0;
+		for (Review r : foundReviews) {
+			sumOfRatings += r.getRating();
+		}
+		double averageRating = sumOfRatings / foundReviews.size();
+		foundProfileReviewed.setAverageRating(averageRating);
+		profileRepo.save(foundProfileReviewed);
+
+		return savedReview;
 	}
 
 	public void findByIdAndDelete(String id) throws UserNotFoundException {
