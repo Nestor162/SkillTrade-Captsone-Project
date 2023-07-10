@@ -57,24 +57,33 @@ public class ProfileService {
 		found.setLocation(body.getLocation());
 		found.setBiography(body.getBiography());
 		found.setBirthDate(body.getBirthDate());
-		found.setGender(Gender.valueOf(body.getGender()));
-		found.setProfilePicture(body.getProfilePicture());
 
-		// Clear previous languages
-		found.getSpokenLanguages().clear();
-		profileRepo.save(found);
+		if (body.getGender() != null) {
+			found.setGender(Gender.valueOf(body.getGender()));
+		}
 
-		// Set profile languages
-		for (String languageCode : body.getLangs()) {
+		if (body.getProfilePicture() != null) {
+			found.setProfilePicture(body.getProfilePicture());
+		}
 
-			Language language = langRepo.findByLanguageCode(languageCode)
-					.orElseThrow(() -> new LanguageNotFoundException(
-							"Language not found with code: " + languageCode));
+		if (body.getLangs() != null) {
+			// Clear previous languages
+			found.getSpokenLanguages().clear();
+			profileRepo.save(found);
 
-			if (!body.getLangs().contains(language)) {
-				found.getSpokenLanguages().add(language);
+			// Set profile languages
+			for (String languageCode : body.getLangs()) {
+
+				Language language = langRepo.findByLanguageCode(languageCode)
+						.orElseThrow(() -> new LanguageNotFoundException(
+								"Language not found with code: "
+										+ languageCode));
+
+				if (!body.getLangs().contains(language)) {
+					found.getSpokenLanguages().add(language);
+				}
+
 			}
-
 		}
 
 		// Clear previous interests
