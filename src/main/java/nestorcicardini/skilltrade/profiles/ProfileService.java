@@ -86,19 +86,21 @@ public class ProfileService {
 			}
 		}
 
-		// Clear previous interests
-		found.getInterests().clear();
-		profileRepo.save(found);
+		if (body.getInterests() != null) {
+			// Clear previous interests
+			found.getInterests().clear();
+			profileRepo.save(found);
 
-		// Set profile interests
-		for (Interest currentInterest : body.getInterests()) {
-			Interest foundInterest = interestRepo
-					.findById(currentInterest.getId())
-					.orElseThrow(() -> new InterestNotFoundException(
-							"Interest not found with id: "
-									+ currentInterest.getId()));
-			found.getInterests().add(foundInterest);
+			// Set profile interests
+			for (Interest currentInterest : body.getInterests()) {
+				Interest foundInterest = interestRepo
+						.findById(currentInterest.getId())
+						.orElseThrow(() -> new InterestNotFoundException(
+								"Interest not found with id: "
+										+ currentInterest.getId()));
+				found.getInterests().add(foundInterest);
 
+			}
 		}
 
 		return profileRepo.save(found);
