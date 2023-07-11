@@ -20,7 +20,7 @@ public class ProfileCreationPayload {
 	@Size(max = 100)
 	private String location;
 
-	@Size(max = 500)
+	@Size(min = 25, max = 500)
 	private String biography;
 
 	@Past
