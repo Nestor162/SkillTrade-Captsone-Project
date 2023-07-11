@@ -52,12 +52,21 @@ public class ProfileService {
 
 		Profile found = this.getProfileById(profileId);
 
-		found.setName(body.getName());
-		found.setSurname(body.getSurname());
-		found.setLocation(body.getLocation());
-		found.setBiography(body.getBiography());
-		found.setBirthDate(body.getBirthDate());
-
+		if (body.getName() != null) {
+			found.setName(body.getName());
+		}
+		if (body.getSurname() != null) {
+			found.setSurname(body.getSurname());
+		}
+		if (body.getLocation() != null) {
+			found.setLocation(body.getLocation());
+		}
+		if (body.getBiography() != null) {
+			found.setBiography(body.getBiography());
+		}
+		if (body.getBiography() != null) {
+			found.setBirthDate(body.getBirthDate());
+		}
 		if (body.getGender() != null) {
 			found.setGender(Gender.valueOf(body.getGender()));
 		}
