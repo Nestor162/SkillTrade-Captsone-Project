@@ -50,6 +50,7 @@ public class Post {
 	private Availability availability;
 
 	private LocalDate publicationDate;
+	@Column(length = 300)
 	private String imageUrl;
 
 	@ManyToOne
