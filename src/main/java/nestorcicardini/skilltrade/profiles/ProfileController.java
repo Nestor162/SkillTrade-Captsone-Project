@@ -49,7 +49,6 @@ public class ProfileController {
 	// 3. READ (GET METHOD) - http://localhost:3001/profiles/{profileId}
 	@GetMapping("/{profileId}")
 	// Admin and users can acces this endpoint
-	@PreAuthorize("hasAuthority('ADMIN') or #profileId == @userUtils.getCurrentProfileId().toString()")
 	public Profile getProfileById(@PathVariable String profileId) {
 		return profileService.getProfileById(profileId);
 	}
