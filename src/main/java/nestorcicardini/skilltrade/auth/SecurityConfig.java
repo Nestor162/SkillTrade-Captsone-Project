@@ -70,6 +70,8 @@ public class SecurityConfig {
 				auth -> auth.requestMatchers("/interests").authenticated());
 		http.authorizeHttpRequests(auth -> auth
 				.requestMatchers("/interests/{interestId}").authenticated());
+		http.authorizeHttpRequests(
+				auth -> auth.requestMatchers("/langs").authenticated());
 
 		http.addFilterBefore(jwtAuthFilter,
 				UsernamePasswordAuthenticationFilter.class);
