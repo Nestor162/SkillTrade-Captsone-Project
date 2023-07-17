@@ -1,6 +1,7 @@
 package nestorcicardini.skilltrade.posts;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import nestorcicardini.skilltrade.posts.payloads.PublishPostPayload;
 import nestorcicardini.skilltrade.profiles.Profile;
 import nestorcicardini.skilltrade.profiles.ProfileService;
 import nestorcicardini.skilltrade.users.UserUtils;
+import nestorcicardini.skilltrade.users.exceptions.UserNotFoundException;
 
 @Service
 public class PostService {
@@ -112,5 +114,14 @@ public class PostService {
 		Post found = this.getPostById(postId);
 		found.setStatus(PostStatus.valueOf(status.getPostStatus()));
 		return postRepo.save(found);
+	}
+
+	public List<Post> getPostsByProfileId(String profileId) {
+
+		List<Post> foundPosts = postRepo
+				.findByProfile(profileService.getProfileById(profileId))
+				.orElseThrow(() -> new UserNotFoundException(
+						"Post author not found for id: " + profileId));
+		return foundPosts;
 	}
 }

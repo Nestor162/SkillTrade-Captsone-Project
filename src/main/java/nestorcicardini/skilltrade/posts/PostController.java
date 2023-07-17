@@ -72,6 +72,13 @@ public class PostController {
 		return postService.getPostById(postId);
 	}
 
+	// 4.5 READ (GET METHOD) - http://localhost:3001/posts?author={postId}
+	@GetMapping(params = "author")
+	@PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+	public List<Post> getPostByAuthorId(@RequestParam String author) {
+		return postService.getPostsByProfileId(author);
+	}
+
 	// 5. UPDATE (PUT METHOD) - http://localhost:3001/post/:postId + req. body
 	@PutMapping("/{postId}")
 	@PreAuthorize("hasAuthority('ADMIN') or @postService.getPostById(#postId).getProfile().getUser().getId().toString() == @userUtils.getCurrentUserId().toString()")
