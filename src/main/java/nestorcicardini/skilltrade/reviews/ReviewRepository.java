@@ -10,4 +10,6 @@ import nestorcicardini.skilltrade.profiles.Profile;
 
 public interface ReviewRepository extends JpaRepository<Review, UUID> {
 	Optional<List<Review>> findByReviewAuthor(Profile reviewAuthor);
+
+	Optional<List<Review>> findByProfileReviewed(Profile profileReviewed);
 }

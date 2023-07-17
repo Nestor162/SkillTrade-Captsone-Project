@@ -134,6 +134,15 @@ public class ReviewService {
 		return foundReviews;
 	}
 
+	public List<Review> getReviewsOfProfile(String profileId) {
+
+		List<Review> foundReviews = reviewRepo
+				.findByProfileReviewed(profileService.getProfileById(profileId))
+				.orElseThrow(() -> new UserNotFoundException(
+						"Profile reviewed not found for id: " + profileId));
+		return foundReviews;
+	}
+
 	// Checks whether the current user is the author of the review,
 	// allowing only the author to delete it.
 	public boolean isReviewAuthor(UUID reviewId, UUID profileId) {
