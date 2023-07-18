@@ -68,8 +68,11 @@ public class ReviewController {
 
 	// 4.5 READ (GET METHOD) - http://localhost:3001/reviews&profile=profileId
 	@GetMapping(params = "profile")
-	public List<Review> getReviewOfProfile(@RequestParam String profile) {
-		return reviewService.getReviewsOfProfile(profile);
+	public Page<Review> getReviewOfProfile(@RequestParam String profile,
+			@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "5") int size,
+			@RequestParam(defaultValue = "publicationDate") String sortBy) {
+		return reviewService.getReviewsOfProfile(profile, page, size, sortBy);
 	}
 
 	// 5. UPDATE (PUT METHOD) - http://localhost:3001/reviews/:reviewId + req.

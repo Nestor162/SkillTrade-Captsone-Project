@@ -134,10 +134,18 @@ public class ReviewService {
 		return foundReviews;
 	}
 
-	public List<Review> getReviewsOfProfile(String profileId) {
+	public Page<Review> getReviewsOfProfile(String profileId, int page,
+			int size, String sortBy) {
+		if (size < 0)
+			size = 10;
+		if (size > 100)
+			size = 100;
 
-		List<Review> foundReviews = reviewRepo
-				.findByProfileReviewed(profileService.getProfileById(profileId))
+		Pageable pageable = PageRequest.of(page, size,
+				Sort.by(sortBy).descending());
+		Page<Review> foundReviews = reviewRepo
+				.findByProfileReviewed(profileService.getProfileById(profileId),
+						pageable)
 				.orElseThrow(() -> new UserNotFoundException(
 						"Profile reviewed not found for id: " + profileId));
 		return foundReviews;
