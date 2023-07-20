@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
@@ -107,7 +109,7 @@ public class PostController {
 
 	// FILTERS
 	@GetMapping("/filters")
-	public List<Post> getPosts(
+	public Page<Post> getPosts(
 			@RequestParam(required = false) Availability availability,
 			@RequestParam(required = false) Interest category,
 			@RequestParam(required = false) SkillLevel skillLevel,
@@ -115,7 +117,14 @@ public class PostController {
 			@RequestParam(required = false) String title,
 			@RequestParam(required = false) String query,
 			@RequestParam(required = false) String sort,
-			@RequestParam(required = false) String location) {
+			@RequestParam(required = false) String location,
+			@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "10") int size) {
+
+		if (size < 0)
+			size = 10;
+		if (size > 100)
+			size = 100;
 
 		// Create a specification to filter posts
 		Specification<Post> spec = Specification.where(null);
@@ -153,8 +162,11 @@ public class PostController {
 			sortObj = Sort.unsorted();
 		}
 
-		// Find posts matching the specification
-		return postRepo.findAll(spec, sortObj);
+		// Create a Pageable object
+		Pageable pageable = PageRequest.of(page, size, sortObj);
+
+		// Find a page of posts matching the specification
+		return postRepo.findAll(spec, pageable);
 	}
 
 }
