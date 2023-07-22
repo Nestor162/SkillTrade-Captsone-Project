@@ -84,6 +84,7 @@ public class PostService {
 		Post found = this.getPostById(postId);
 
 		found.setId(UUID.fromString(postId));
+		found.setTitle(body.getTitle());
 		found.setContent(body.getContent());
 		found.setImageUrl(body.getImageUrl());
 		found.setPublicationDate(LocalDate.now());
