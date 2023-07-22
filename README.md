@@ -1,5 +1,8 @@
 ## SkillTrade -  *Teach, Learn, Grow*
 
+![skilltrade-logo-with-text-horizontal-cropped](https://github.com/Nestor162/SkillTrade-Captsone-Project-Backend/assets/113930607/e5360ca9-c79f-4c61-aaa0-0234834939e1)
+
+
 **SkillTrade** è una piattaforma di scambio di abilità che consente alle persone di *scambiare* le proprie conoscenze e competenze. L'app permette agli utenti di offrire i propri servizi in cambio di lezioni o servizi forniti da altri utenti. SkillTrade offre un modo semplice per imparare nuove competenze, conoscere persone con interessi simili e valorizzare le proprie abilità.
 
 **Funzionalità principali**:
@@ -15,3 +18,5 @@
 5.  **Recensioni e valutazioni**: Dopo aver completato uno scambio, gli utenti possono lasciare recensioni e valutazioni sugli altri utenti con cui hanno interagito. Ciò contribuisce a creare un ambiente di fiducia e a fornire informazioni utili ad altri utenti interessati a impegnarsi in uno scambio simile.
     
 6.  **Storico delle attività**: Gli utenti possono accedere a un elenco delle attività passate, inclusi gli scambi completati e le conversazioni precedenti. Ciò consente loro di tenere traccia dei progressi e delle esperienze pregresse.
+
+   [FrontEnd Repository](https://github.com/Nestor162/SkillTrade-Capstone-Project-Frontend)
