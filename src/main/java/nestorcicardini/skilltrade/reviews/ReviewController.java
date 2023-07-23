@@ -92,4 +92,12 @@ public class ReviewController {
 		reviewService.findByIdAndDelete(reviewId);
 	}
 
+	// 7. GET number of starts
+	@GetMapping("/stars/{profileId}")
+	public ResponseEntity<List<Object[]>> getProfileStars(
+			@PathVariable String profileId) {
+		List<Object[]> stars = reviewService.calculateProfileStars(profileId);
+		return ResponseEntity.ok(stars);
+	}
+
 }

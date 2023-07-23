@@ -72,6 +72,8 @@ public class SecurityConfig {
 				.requestMatchers("/interests/{interestId}").authenticated());
 		http.authorizeHttpRequests(
 				auth -> auth.requestMatchers("/langs").authenticated());
+		http.authorizeHttpRequests(auth -> auth
+				.requestMatchers("/reviews/stars/{profileId}").permitAll());
 
 		http.addFilterBefore(jwtAuthFilter,
 				UsernamePasswordAuthenticationFilter.class);

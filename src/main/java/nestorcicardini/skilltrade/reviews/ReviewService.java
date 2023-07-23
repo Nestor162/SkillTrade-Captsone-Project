@@ -151,6 +151,10 @@ public class ReviewService {
 		return foundReviews;
 	}
 
+	public List<Object[]> calculateProfileStars(String profileId) {
+		return reviewRepo.countReviewsByStars(UUID.fromString(profileId));
+	}
+
 	// Checks whether the current user is the author of the review,
 	// allowing only the author to delete it.
 	public boolean isReviewAuthor(UUID reviewId, UUID profileId) {
