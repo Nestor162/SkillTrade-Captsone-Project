@@ -158,6 +158,10 @@ public class PostController {
 			sortObj = Sort.by(Sort.Direction.DESC, "publicationDate");
 		} else if ("oldest".equals(sort)) {
 			sortObj = Sort.by(Sort.Direction.ASC, "publicationDate");
+		} else if ("alphabetical".equals(sort)) {
+			sortObj = Sort.by(Sort.Direction.ASC, "title");
+		} else if ("reverseAlphabetical".equals(sort)) {
+			sortObj = Sort.by(Sort.Direction.DESC, "title");
 		} else {
 			sortObj = Sort.unsorted();
 		}
