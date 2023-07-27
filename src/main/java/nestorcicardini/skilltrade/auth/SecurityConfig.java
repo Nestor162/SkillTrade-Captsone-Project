@@ -67,13 +67,13 @@ public class SecurityConfig {
 		http.authorizeHttpRequests(auth -> auth
 				.requestMatchers("/replies/{replyId}").authenticated());
 		http.authorizeHttpRequests(
-				auth -> auth.requestMatchers("/interests").authenticated());
+				auth -> auth.requestMatchers("/interests").permitAll());
 		http.authorizeHttpRequests(auth -> auth
 				.requestMatchers("/interests/{interestId}").authenticated());
 		http.authorizeHttpRequests(
 				auth -> auth.requestMatchers("/langs").authenticated());
 		http.authorizeHttpRequests(auth -> auth
-				.requestMatchers("/reviews/stars/{profileId}").permitAll());
+				.requestMatchers("/reviews/stars/{profileId}").authenticated());
 
 		http.addFilterBefore(jwtAuthFilter,
 				UsernamePasswordAuthenticationFilter.class);

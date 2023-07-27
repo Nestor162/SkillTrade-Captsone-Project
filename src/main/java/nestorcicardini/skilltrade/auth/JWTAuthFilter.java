@@ -87,7 +87,9 @@ public class JWTAuthFilter extends OncePerRequestFilter {
 	// To prevent the filter from being executed during login/register.
 	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) {
-		return new AntPathMatcher().match("/auth/**", request.getServletPath());
+		AntPathMatcher matcher = new AntPathMatcher();
+		return matcher.match("/auth/**", request.getServletPath())
+				|| matcher.match("/interests", request.getServletPath());
 	}
 
 }
