@@ -71,7 +71,7 @@ public class SecurityConfig {
 		http.authorizeHttpRequests(auth -> auth
 				.requestMatchers("/interests/{interestId}").authenticated());
 		http.authorizeHttpRequests(
-				auth -> auth.requestMatchers("/langs").authenticated());
+				auth -> auth.requestMatchers("/langs").permitAll());
 		http.authorizeHttpRequests(auth -> auth
 				.requestMatchers("/reviews/stars/{profileId}").authenticated());
 
