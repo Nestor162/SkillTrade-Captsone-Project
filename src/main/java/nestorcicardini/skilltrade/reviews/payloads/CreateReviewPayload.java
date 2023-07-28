@@ -11,7 +11,7 @@ import lombok.Getter;
 public class CreateReviewPayload {
 
 	@NotBlank(message = "Title is required")
-	@Size(max = 150, message = "Title cannot exceed 50 characters")
+	@Size(max = 150, message = "Title cannot exceed 150 characters")
 	private String title;
 
 	@NotBlank(message = "Content is required")
