@@ -1,6 +1,7 @@
 package nestorcicardini.skilltrade.languages;
 
-import java.io.FileReader;
+import java.io.InputStreamReader;
+import java.net.URL;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -20,11 +21,10 @@ public class LanguagesLoader implements CommandLineRunner {
 
 		if (langRepo.findAll().isEmpty()) {
 
-//			String filePath = "src/main/java/nestorcicardini/skilltrade/languages/Languages.csv";
-			String filePath = "https://raw.githubusercontent.com/Nestor162/SkillTrade-Captsone-Project-Backend/main/src/main/java/nestorcicardini/skilltrade/languages/Languages.csv";
-
-			CSVReader csvReader = new CSVReaderBuilder(new FileReader(filePath))
-					.build();
+			URL url = new URL(
+					"https://raw.githubusercontent.com/Nestor162/SkillTrade-Captsone-Project-Backend/main/src/main/java/nestorcicardini/skilltrade/languages/Languages.csv");
+			CSVReader csvReader = new CSVReaderBuilder(
+					new InputStreamReader(url.openStream())).build();
 
 			try (csvReader) {
 				String[] values = null;

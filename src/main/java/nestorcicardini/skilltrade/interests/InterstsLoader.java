@@ -1,6 +1,7 @@
 package nestorcicardini.skilltrade.interests;
 
-import java.io.FileReader;
+import java.io.InputStreamReader;
+import java.net.URL;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -19,12 +20,10 @@ public class InterstsLoader implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 
 		if (interestRepo.findAll().isEmpty()) {
-
-//			String filePath = "src/main/java/nestorcicardini/skilltrade/interests/Interests.csv";
-			String filePath = "https://raw.githubusercontent.com/Nestor162/SkillTrade-Captsone-Project-Backend/main/src/main/java/nestorcicardini/skilltrade/interests/Interests.csv";
-
-			CSVReader csvReader = new CSVReaderBuilder(new FileReader(filePath))
-					.build();
+			URL url = new URL(
+					"https://raw.githubusercontent.com/Nestor162/SkillTrade-Captsone-Project-Backend/main/src/main/java/nestorcicardini/skilltrade/interests/Interests.csv");
+			CSVReader csvReader = new CSVReaderBuilder(
+					new InputStreamReader(url.openStream())).build();
 
 			try (csvReader) {
 				String[] values = null;
