@@ -20,7 +20,8 @@ public class InterstsLoader implements CommandLineRunner {
 
 		if (interestRepo.findAll().isEmpty()) {
 
-			String filePath = "src/main/java/nestorcicardini/skilltrade/interests/Interests.csv";
+//			String filePath = "src/main/java/nestorcicardini/skilltrade/interests/Interests.csv";
+			String filePath = "https://raw.githubusercontent.com/Nestor162/SkillTrade-Captsone-Project-Backend/main/src/main/java/nestorcicardini/skilltrade/interests/Interests.csv";
 
 			CSVReader csvReader = new CSVReaderBuilder(new FileReader(filePath))
 					.build();

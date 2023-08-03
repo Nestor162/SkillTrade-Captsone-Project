@@ -20,7 +20,8 @@ public class LanguagesLoader implements CommandLineRunner {
 
 		if (langRepo.findAll().isEmpty()) {
 
-			String filePath = "src/main/java/nestorcicardini/skilltrade/languages/Languages.csv";
+//			String filePath = "src/main/java/nestorcicardini/skilltrade/languages/Languages.csv";
+			String filePath = "https://raw.githubusercontent.com/Nestor162/SkillTrade-Captsone-Project-Backend/main/src/main/java/nestorcicardini/skilltrade/languages/Languages.csv";
 
 			CSVReader csvReader = new CSVReaderBuilder(new FileReader(filePath))
 					.build();
