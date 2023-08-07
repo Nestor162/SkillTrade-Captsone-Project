@@ -41,6 +41,8 @@ public class SecurityConfig {
 				auth -> auth.requestMatchers("/auth/login").permitAll());
 		http.authorizeHttpRequests(
 				auth -> auth.requestMatchers("/users").authenticated());
+		http.authorizeHttpRequests(
+				auth -> auth.requestMatchers("/auth/status").permitAll());
 		http.authorizeHttpRequests(auth -> auth
 				.requestMatchers("/users/{userId}").authenticated());
 		http.authorizeHttpRequests(

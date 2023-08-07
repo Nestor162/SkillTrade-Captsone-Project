@@ -5,13 +5,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import nestorcicardini.skilltrade.auth.exceptions.InvalidCredentialsException;
 import nestorcicardini.skilltrade.auth.payloads.successfulRegistrationPayload;
+import nestorcicardini.skilltrade.status.ServerStatus;
 import nestorcicardini.skilltrade.users.User;
 import nestorcicardini.skilltrade.users.UserService;
 import nestorcicardini.skilltrade.users.exceptions.UserNotFoundException;
@@ -52,6 +55,12 @@ public class AuthController {
 		String token = JWTUtils.createToken(user);
 		return new ResponseEntity<>(new successfulRegistrationPayload(token),
 				HttpStatus.OK);
+	}
+
+	@GetMapping("/status")
+	@ResponseStatus(HttpStatus.OK)
+	public ServerStatus getStatus() {
+		return new ServerStatus("ready");
 	}
 
 }
